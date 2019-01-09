@@ -15,8 +15,6 @@
 #include "general.h"
 
 #define COUNT_CARAVANS 5
-#define HORSE_MAX 50
-#define CAMEL_MAX 20
 
 typedef struct NodeImplementation* Node;
 
@@ -133,7 +131,17 @@ void unload(Caravan caravan)
 
 int get_caravan_speed(Caravan caravan)
 {
-  return 1000;
+  Node current=caravan->head;
+  int lowest_speed=10000;
+  while (current!=0)
+  {
+    if (get_actual_speed(current->animal)<lowest_speed)
+    {
+      lowest_speed=get_actual_speed(current->animal);
+    }
+    current=current->next;
+  }
+  return lowest_speed;
 }
 void optimize_load(Caravan caravan)
 {
