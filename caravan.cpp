@@ -107,21 +107,23 @@ void remove_pack_animal(Caravan caravan, PackAnimal animal)
     sfree(deleted);
     caravan->length--;
   }
-
-
-
-
-
 }
 
 int get_caravan_load(Caravan caravan)
 {
-  return 1000;
+  Node current=caravan->head;
+  int load=0;
+  while (current!=0)
+  {
+    load+=get_load(current->animal);
+    current=current->next;
+  }
+  return load;
 }
 
 void unload(Caravan caravan)
 {
-
+  
 }
 
 int get_caravan_speed(Caravan caravan)
