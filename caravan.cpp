@@ -123,7 +123,12 @@ int get_caravan_load(Caravan caravan)
 
 void unload(Caravan caravan)
 {
-  
+  Node current=caravan->head;
+  while (current!=0)
+  {
+    unload(current->animal);
+    current=current->next;
+  }
 }
 
 int get_caravan_speed(Caravan caravan)
