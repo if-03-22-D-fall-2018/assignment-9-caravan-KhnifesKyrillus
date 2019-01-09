@@ -58,13 +58,16 @@ void delete_caravan(Caravan caravan)
 void add_pack_animal(Caravan caravan, PackAnimal animal)
 {
   if(animal==0) return;
+  if (get_caravan(animal)!=caravan && get_caravan(animal)!=0)
+  {
+    remove_pack_animal(get_caravan(animal),animal);
+  }
   Node newNode=(Node)malloc(sizeof(struct NodeImplementation));
   newNode->animal=animal;
   newNode->next=0;
   if (caravan->head == 0)
   {
     caravan->head=newNode;
-    caravan->length++;
   }
   else
   {
@@ -76,8 +79,8 @@ void add_pack_animal(Caravan caravan, PackAnimal animal)
     }
     if(current->animal==animal) return;
     current->next=newNode;
-    caravan->length++;
   }
+  caravan->length++;
   add_to_caravan(animal,caravan);
 }
 
@@ -88,8 +91,6 @@ void remove_pack_animal(Caravan caravan, PackAnimal animal)
     Node deleted=caravan->head;
     caravan->head=caravan->head->next;
     sfree(deleted);
-    remove_from_caravan(animal,caravan);
-    caravan->length--;
   }
   else
   {
@@ -99,12 +100,12 @@ void remove_pack_animal(Caravan caravan, PackAnimal animal)
       current=current->next;
     }
     if (current->next==0) return;
-    remove_from_caravan(animal,caravan);
     Node deleted=current->next;
     current->next=current->next->next;
     sfree(deleted);
-    caravan->length--;
   }
+  remove_from_caravan(animal,caravan);
+  caravan->length--;
 }
 
 int get_caravan_load(Caravan caravan)
